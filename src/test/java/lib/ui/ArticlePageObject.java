@@ -58,12 +58,16 @@ abstract public class ArticlePageObject extends MainPageObject{
     public String waitForTitleElement2(String article_name) {
 
         if (Platform.getInstance().isAndroid()) {
-            String title_xpath = getTitleXpath2(article_name);
+            String title_xpath = getTitleXpath1(article_name);
             return this.waitForElementPresent(title_xpath, "Cannot find article title on a page", 15).getAttribute("text");
         }
-        else {
+        else if (Platform.getInstance().isIOS()) {
             String title_xpath = getTitleXpath2(article_name);
             return this.waitForElementPresent(title_xpath, "Cannot find article title on a page", 15).getAttribute("name");
+        }
+        else {
+            String title_xpath = getTitleXpath1(article_name);
+            return this.waitForElementPresent(title_xpath, "Cannot find article title on a page", 15).getText();
         }
     }
 

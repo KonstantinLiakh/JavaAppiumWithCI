@@ -48,10 +48,10 @@ public class MyListTests extends CoreTestCase {
 
             ArticlePageObject.waitForTitleElement1("Java (programming language)");
 
-            //assertEquals("We are not in the same page after login",
-           //         article_title,
-            //        ArticlePageObject.getArticleTitle()
-           // );
+            assertEquals("We are not in the same page after login",
+                    article_title,
+                    ArticlePageObject.waitForTitleElement1("Java (programming language)")
+            );
         }
 
         NavigationUI NavigationUI = NavigationUIFactory.get(driver);
@@ -81,37 +81,50 @@ public class MyListTests extends CoreTestCase {
         SearchPageObject.clickByArticleSubstring("JavaScript");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement2("JavaScript");
-
         String title_before_saving = ArticlePageObject.waitForTitleElement2("JavaScript");
 
         if (Platform.getInstance().isAndroid()) {
             ArticlePageObject.addArticleToMyList(name_of_my_folder);
             ArticlePageObject.closeArticle();
         }
-        else {
+        else if (Platform.getInstance().isIOS()) {
             ArticlePageObject.addArticlesToMySavedIOSAndMW();
             ArticlePageObject.closeArticle();
             SearchPageObject.initSearchInput();
         }
+        else {
+            ArticlePageObject.addArticlesToMySavedIOSAndMW();
+            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login, password);
+            Auth.submitForm();
+
+            ArticlePageObject.waitForTitleElement2("JavaScript");
+            SearchPageObject.initSearchInput();
+            SearchPageObject.typeSearchLine("Java");
+        }
 
         //Save 2nd article
-        SearchPageObject.clickByArticleSubstring("Java (programming language)");
-        ArticlePageObject.waitForTitleElement1("Java (programming language)");
-        String article_to_be_deleted = ArticlePageObject.waitForTitleElement1("Java (programming language)");
+        SearchPageObject.clickByArticleSubstring("Java");
+        //ArticlePageObject.waitForTitleElement1("Java (programming language)");
+        String article_to_be_deleted = ArticlePageObject.waitForTitleElement1("Java");
 
         if (Platform.getInstance().isAndroid()) {
             ArticlePageObject.addArticleToAlreadyExistingList();
             ArticlePageObject.closeArticle();
             SearchPageObject.clickCancelSearch();
         }
-        else {
+        else if (Platform.getInstance().isIOS()) {
             ArticlePageObject.addArticlesToMySavedIOSWithAlreadySaved();
             ArticlePageObject.closeArticle();
+        }
+        else {
+            ArticlePageObject.addArticlesToMySavedIOSAndMW();
         }
 
         //Navigation to my lists
         NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.openNavigation();
         NavigationUI.clickMyLists();
 
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
