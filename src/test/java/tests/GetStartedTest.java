@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.WelcomePageObject;
@@ -8,8 +10,12 @@ import org.junit.Test;
 
 public class GetStartedTest extends CoreTestCase {
 
-    // ТЕСТ ДЛЯ ПРОКРУТКИ СТРАНИЦ НА WELCOME ЭКРАНЕ ДЛЯ iOS - done
     @Test
+    @DisplayName("Scroll pages on Welcome screen")
+    @Description("This test scrolls all pages with welcome information on welcome screen")
+    @Step("Starting test testPassThroughWelcome")
+    @Feature(value="WelcomeScreen")
+    @Severity(value = SeverityLevel.MINOR)
     public void testPassThroughWelcome() {
 
         if (Platform.getInstance().isAndroid() || Platform.getInstance().isMW()) {

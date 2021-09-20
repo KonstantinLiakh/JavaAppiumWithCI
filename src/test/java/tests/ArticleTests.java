@@ -1,7 +1,9 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
+import junit.framework.Assert;
 import lib.CoreTestCase;
-import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import lib.ui.WelcomePageObject;
@@ -10,10 +12,15 @@ import lib.ui.factories.SearchPageObjectFactory;
 import lib.ui.factories.WelcomePageObjectFactory;
 import org.junit.Test;
 
+@Epic("Tests for articles")
 public class ArticleTests extends CoreTestCase {
 
-    // ТЕСТ, КОТОРЫЙ ПРОВЕРЯЕТ НАЗВАНИЕ СТАТЬИ
     @Test
+    @DisplayName("Compare article title with expected one")
+    @Description("This test compares article title on a page with expected page title")
+    @Step("Starting test testCompareArticleTitle")
+    @Features(value = {@Feature(value="Search"), @Feature(value="Article")})
+    @Severity(value = SeverityLevel.BLOCKER)
     public void testCompareArticleTitle() {
 
         WelcomePageObject WelcomePageObject = WelcomePageObjectFactory.get(driver);
@@ -29,15 +36,19 @@ public class ArticleTests extends CoreTestCase {
 
         String article_title = ArticlePageObject.waitForTitleElement1("Java (programming language)");
 
-        assertEquals(
+        Assert.assertEquals(
                 "We see unexpected title",
                 "Java (programming language)",
                 article_title
         );
     }
 
-    // ТЕСТ ДЛЯ ПРОВЕРКИ СКРОЛЛИНГА СТРАНИЦЫ ВНИЗ
     @Test
+    @DisplayName("Swipe article to the footer")
+    @Description("This test opens article, then swipes the content to the footer and compare footer element with expected element")
+    @Step("Starting test testSwipeArticle")
+    @Features(value = {@Feature(value="Search"), @Feature(value="Article")})
+    @Severity(value = SeverityLevel.MINOR)
     public void testSwipeArticle() {
 
         WelcomePageObject WelcomePageObject = WelcomePageObjectFactory.get(driver);
@@ -55,8 +66,12 @@ public class ArticleTests extends CoreTestCase {
         ArticlePageObject.swipeToFooter();
     }
 
-    // ТЕСТ, КОТОРЫЙ ПРОВЕРЯЕТ НАЗВАНИЕ СТАТЬИ, НЕ ДОЖИДАЯСЬ САМОГО ЭЛЕМЕНТА С НАЗВАНИЕМ
     @Test
+    @DisplayName("Check article title without waiting time")
+    @Description("This test compares article title on a page with expected page title without waiting time")
+    @Step("Starting test testTitleOfArticleImmediately")
+    @Features(value = {@Feature(value="Search"), @Feature(value="Article")})
+    @Severity(value = SeverityLevel.MINOR)
     public void testTitleOfArticleImmediately() {
 
         WelcomePageObject WelcomePageObject = WelcomePageObjectFactory.get(driver);

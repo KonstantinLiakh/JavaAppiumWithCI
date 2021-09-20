@@ -1,5 +1,8 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
+import junit.framework.Assert;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.*;
@@ -13,8 +16,12 @@ public class MyListTests extends CoreTestCase {
             login = "Kliakh90",
             password = "Dermorhend12-";
 
-    // ТЕСТ, КОТОРЫЙ СОХРАНЯЕТ СТАТЬЮ В НОВЫЙ СПИСОК ЗАКЛАДОК
     @Test
+    @DisplayName("Save article to saved")
+    @Description("This test saves the article to saved list")
+    @Step("Starting test testSaveFirstArticleToMyList")
+    @Features(value = {@Feature(value="Search"), @Feature(value="Article"), @Feature(value="SavedArticles")})
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testSaveFirstArticleToMyList(){
 
         WelcomePageObject WelcomePageObject = WelcomePageObjectFactory.get(driver);
@@ -48,7 +55,7 @@ public class MyListTests extends CoreTestCase {
 
             ArticlePageObject.waitForTitleElement1("Java (programming language)");
 
-            assertEquals("We are not in the same page after login",
+            Assert.assertEquals("We are not in the same page after login",
                     article_title,
                     ArticlePageObject.waitForTitleElement1("Java (programming language)")
             );
@@ -66,8 +73,13 @@ public class MyListTests extends CoreTestCase {
 
         MyListsPageObject.swipeByArticleToDelete(article_title);
     }
-    //ТЕСТ ДЛЯ СОХРАНЕНИЯ ДВУХ СТАТЕЙ В НОВЫЙ СПИСОК И ПОТОМ УДАЛЯЕТ ОДНУ СТАТЬЮ ИЗ СПИСКА
+
     @Test
+    @DisplayName("Save two articles to saved and delete of of them")
+    @Description("This test saves two articles to saved list and then deletes one of articles")
+    @Step("Starting test testSaveTwoArticlesAndDeleteOneOfIt")
+    @Features(value = {@Feature(value="Search"), @Feature(value="Article"), @Feature(value="SavedArticles")})
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testSaveTwoArticlesAndDeleteOneOfIt(){
 
         WelcomePageObject WelcomePageObject = WelcomePageObjectFactory.get(driver);
@@ -139,7 +151,7 @@ public class MyListTests extends CoreTestCase {
 
         String title_after_saving = ArticlePageObject.waitForTitleElement2("JavaScript");
 
-        assertEquals(
+        Assert.assertEquals(
                 "Title of the 1st article before saving is not equal to title in saved list folder",
                 title_before_saving,
                 title_after_saving

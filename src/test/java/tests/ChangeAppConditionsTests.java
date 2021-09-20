@@ -1,5 +1,8 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
+import junit.framework.Assert;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.ArticlePageObject;
@@ -12,8 +15,12 @@ import org.junit.Test;
 
 public class ChangeAppConditionsTests extends CoreTestCase {
 
-    //ТЕСТ ДЛЯ ПРОВЕРКИ НАЗВАНИЯ СТАТЬИ ПОСЛЕ СМЕНЫ ОРИЕНТАТЦИИ УСТРОЙСТВА
     @Test
+    @DisplayName("Compare article title after device orientation changed")
+    @Description("This test compares article title on a page before and after device orientation changed")
+    @Step("Starting test testChangeOrientationScreenInSearchResults")
+    @Features(value = {@Feature(value="Search"), @Feature(value="Article"), @Feature(value="MobileDeviceSpecific")})
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testChangeOrientationScreenInSearchResults(){
 
         if (Platform.getInstance().isMW()) {
@@ -34,7 +41,7 @@ public class ChangeAppConditionsTests extends CoreTestCase {
         this.rotateScreenLandscape();
         String title_after_rotation = ArticlePageObject.waitForTitleElement1("Java (programming language)");
 
-        assertEquals(
+        Assert.assertEquals(
                 "Article title has been changed after rotation",
                 title_before_rotation,
                 title_after_rotation
@@ -43,15 +50,19 @@ public class ChangeAppConditionsTests extends CoreTestCase {
         this.rotateScreenPortrait();
         String title_after_second_rotation = ArticlePageObject.waitForTitleElement1("Java (programming language)");
 
-        assertEquals(
+        Assert.assertEquals(
                 "Article title has been changed after rotation",
                 title_before_rotation,
                 title_after_second_rotation
         );
     }
 
-    //ТЕСТ ДЛЯ ПРОВЕРКИ ЭЛЕМЕНТА СТРАНИЦЫ ПОСЛЕ ОТКРЫТИЯ ПРИЛОЖЕНИЯ ИЗ БЭКГРАУНДА
     @Test
+    @DisplayName("Compare search element after app recovers from background")
+    @Description("This test compares search element before and after app recovers from background")
+    @Step("Starting test testArticleTextAfterBackground")
+    @Features(value = {@Feature(value="Search"), @Feature(value="MobileDeviceSpecific")})
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testArticleTextAfterBackground(){
 
         if (Platform.getInstance().isMW()) {
